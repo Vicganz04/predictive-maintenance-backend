@@ -1,5 +1,4 @@
 fastapi
 uvicorn
-numpy
-scikit-learn
-xgboost
+numpy==1.26.4
+xgboost==1.7.6
