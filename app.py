@@ -1,8 +1,9 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from pydantic import BaseModel
-import xgboost as xgb  # Pakai xgboost langsung, tanpa joblib
+import xgboost as xgb
 
 app = FastAPI()
 
@@ -14,9 +15,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 1. Load Model XGBoost Native dari file JSON
+# 1. Load Model XGBoost Native dengan Path Aman untuk Vercel
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "xgb_model.json")
+
 model = xgb.XGBClassifier()
-model.load_model("xgb_model.json")
+model.load_model(MODEL_PATH)
 
 # 2. Angka Mean & Scale manual kamu (5 fitur)
 MEAN = np.array([300.00545, 310.0060625, 1539.356875, 40.0033625, 107.685])
